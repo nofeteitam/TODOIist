@@ -1,0 +1,91 @@
+
+#spinner-container {
+    width: fit-content;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    margin: auto;
+    display: none;
+    
+    
+    
+}
+
+#spinner{
+    width: 25px;
+    height: 25px;
+    border: 2px solid blue;
+    margin-right: 1%;
+    border-radius: 50%;
+    border-right-color: aqua;
+    border-right-color: yellow ;
+    border-bottom-color: red ;
+    animation: regSpinner linear infinite 10s;
+    
+    
+}
+
+@keyframes regSpinner {
+    from{}
+    to{ transform :rotate(3600deg)
+    }
+     
+    
+}
+
+
+
+
+
+#cube1{
+    border:1px solid rgb(139, 177, 254);
+    position: relative;
+    height: 20px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    display: none;
+}
+
+#innerCube1{
+    width: 2%;
+    background-color:aqua;
+    height: 20px;
+}
+
+#submitRegBtn + #cube1 #innerCube1{
+    animation: loderNow1 4s linear;
+    display: block;
+}
+@keyframes loderNow1{
+    from{}
+    to{
+        width:100%;
+    }
+}
+
+
+#cubeLogin{
+    border:1px solid rgb(139, 177, 254);
+    position: relative;
+    height: 20px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    display: none;
+    
+}
+
+#innerCubeLogin{
+    width: 2%;
+    background-color:aqua;
+    height: 20px;
+}
+
+#loginBtn:hover + #cubeLogin #innerCubeLogin{
+    animation: loderNowLogin 5s linear;
+   
+}
+@keyframes loderNowLogin{
+    from{}
+    to{
+        width:100%;
+    }
+}

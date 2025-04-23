@@ -1,43 +1,73 @@
-$("#lgnBtn").click((event) => {
-    event.preventDefault();
-    let email = $("#email").val();
-    let password = $("#password").val();
-    const users = JSON.parse(localStorage.getItem("users"));
-    const sellers = JSON.parse(localStorage.getItem("sellers"));
-    if (users) {
-        for (let i in users) {
-            let user = users[i];
-            if (user.email == email) {
-                if (user.password == password) {
-                    localStorage.setItem("currentUser", JSON.stringify(user));
-                    window.location.href = "./home.html"
-                    return
-                } else {
-                    alert("Incorrect Password!")
-                    return;
-                }
-            }
-        }
-    }
-    if (sellers) {
-        for (let i in sellers) {
-            let seller = sellers[i];
-            if (seller.email == email) {
-                if (seller.password == password) {
-                    localStorage.setItem("currentUser", JSON.stringify(seller));
-                    window.location.href = "./home.html"
-                    return
-                } else {
-                    alert("Incorrect Password!")
-                    return;
-                }
-            }
-        }
-    }
-    alert("No User / Seller found!")
-})
 
-/* <div class="col-md-9 col-lg-6 col-xl-5">
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-                class="img-fluid" alt="Sample image">
-            </div>*/ 
+$("#homeBtn").click(()=>{
+    window.location.href="../pages/home.html"
+  })
+  
+  
+  $("#rgBtn").click(()=>{
+    window.location.href="../pages/register.html"
+  })
+  
+  $("#lgnBtn").click(()=>{
+      
+      let email=$("#email").val();
+      let password=$("#password").val();
+  
+      const configUptodate=JSON.parse(localStorage.getItem("configUptodate"))
+  
+      console.log(configUptodate)
+  
+      if(email=="" || password=="" )
+        {
+          alert("please complete all fields");
+        }
+      else
+       {
+        if(configUptodate["user"])
+         {
+          for(let i in configUptodate["user"])
+           {
+            let user=configUptodate["user"][i];
+            if(user.email==email)
+             {
+              if (user.password==password)
+               {
+                localStorage.setItem("currentUser",JSON.stringify(user));
+                window.location.href="../pages/home.html"
+                return;
+                }
+              else{
+                   alert("Incorrect Password")
+                   return;
+                  } 
+              }
+             }
+           }
+  
+         if(configUptodate["seller"])
+          {
+           for(let i in configUptodate["seller"])
+            {
+              let seller=configUptodate["seller"][i];
+              console.log(seller)
+              if(seller.email==email)
+               {
+                if (seller.password==password)
+                 {
+                  localStorage.setItem("currentUser",JSON.stringify(seller));
+                  window.location.href="../pages/AddProduct.html"
+                  return;
+                 }
+                 else{
+                  alert("Incorrect Password")
+                  return;
+                 } 
+                }
+              }
+            }
+       alert("No User/ seller Found")     
+     }
+   
+  })
+  
+  
