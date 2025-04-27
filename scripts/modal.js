@@ -57,7 +57,7 @@ function addTask() {
 
     if (!title || !time) return alert("אנא מלא את כל השדות החשובים");
 
-    console.log(`.day-column;[data-day='${day}'][data-hour='${time}']`);
+
     const cell = document.querySelector(`.day-column[data-day='${day}'][data-hour='${time}']`);
     if (!cell) return alert("לא נמצאה התאמה לשעה/יום");
 
