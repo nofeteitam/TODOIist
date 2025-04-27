@@ -3,14 +3,11 @@ const planner = document.getElementsByClassName('planner');
 const hours = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00","19:00","20:00"];
 console.log(planner)
 
-const localTask=JSON.parse(localStorage.getItem("new_tasks"));
-console.log(localTask)
-
 hours.forEach(hour => {
     const hourCell = document.createElement('div');
     hourCell.className = 'cell header';
     hourCell.textContent = hour;
-    $(".planner").append(hourCell);
+    $("#planner").append(hourCell);
     //planner.appendChild(hourCell);
     console.log(hourCell)
 
@@ -22,12 +19,11 @@ hours.forEach(hour => {
         dayCell.setAttribute('data-hour', hour);
         $("#planner").append(dayCell);
         //planner.appendChild(dayCell);
-        console.log(planner)
+        console.log(dayCell)
     }
 });
 
 function addTask() {
-
     const title = document.getElementById('title').value;
     const time = document.getElementById('time').value;
     const day = document.getElementById('day').value;
@@ -41,57 +37,8 @@ function addTask() {
     console.log(time)
 
     
-    class Task{
-                  //sales=0;
-    constructor(title,time,day,desc,
-                 creator,status,priority)
-    {
-     this.title=title;
-     this.time=time;
-     this.day=day;
-     this.desc=desc;
-     this.creator=creator;
-     this.status=status;
-     this.priority=priority;
-    }
- }
 
- let newTask=new Task(
-    title,
-    time,
-    day,
-    desc,
-    creator,
-    status,
-    priority)
-
-    localStorage.setItem('new_tasks', JSON.stringify(newTask));
-    
-    const taskSlot = document.getElementsByClassName('task-slot_ex');
-    const taskCard = document.getElementsByClassName('task-card_ex');
-
-    console.log(taskSlot);
-    console.log(taskCard);
-      
-  $(".task-card_ex").innerHTML+=`
-            <div><strong> 1111 </strong></div>
-            <div><small>222</small></div>
-            <div><small>333</small></div>
-            <div><small>444</small></div>
-            <div><small>555</span></small></div>
-                                                    ` ;
-
-   const localTask=JSON.parse(localStorage.getItem("new_tasks"));
- 
-
-/*
-
- <strong>  ${newTask.title} </strong>
- <div><small>📅 15.04.2025 | 🕒  ${newTask.time}</small></div>
-            <div><small>🧾 תיאור:     ${newTask.desc}</small></div>
-            <div><small>👤 נוצר ע"י:  ${newTask.creator}</small></div>
-            <div><small>✅ סטטוס: <span class="status"> ${newTask.status}</span></small></div>
-    
+    localStorage.setItem('tasks', JSON.stringify(tasks));
 
 
 
@@ -101,7 +48,7 @@ function addTask() {
 
     const card = document.createElement('div');
     card.className = `task-card priority-${priority}`;
-    card.innerHTML =   `
+    card.innerHTML = `
 <div class="actions">
   <button onclick="editTask(this)">✏️</button>
   <button onclick="deleteTask(this)">🗑️</button>
@@ -115,12 +62,8 @@ function addTask() {
 `;
     $("cell").append(card);
    // cell.appendChild(card);
-
-   */
-
-
     closeModal();
-   // saveTasksToStorage();
+    saveTasksToStorage();
 
 }
 
