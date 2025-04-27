@@ -1,22 +1,48 @@
+/*
+class Task {
+    //sales=0;
+    constructor(title, time, day, desc,
+        creator, status, priority) {
+        this.title = title;
+        this.time = time;
+        this.day = day;
+        this.desc = desc;
+        this.creator = creator;
+        this.status = status;
+        this.priority = priority;
+    }
+}
+
+let newTask = new Task(
+    title,
+    time,
+    day,
+    desc,
+    creator,
+    status,
+    priority)
+
+localStorage.setItem('new_tasks', JSON.stringify(newTask));
+
+const taskSlot = document.getElementsByClassName('task-slot_ex');
+const taskCard = document.getElementsByClassName('task-card_ex');
+*/
 
 const planner = document.getElementById('planner');
-const hours = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00","19:00","20:00"];
+const hours = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"];
 
 hours.forEach(hour => {
     const hourCell = document.createElement('div');
-    hourCell.className = 'cell header';
+    hourCell.className = 'hour';
     hourCell.textContent = hour;
     planner.appendChild(hourCell);
-    console.log(hourCell)
-
 
     for (let i = 0; i < 7; i++) {
         const dayCell = document.createElement('div');
-        dayCell.className = 'cell';
+        dayCell.className = 'day-column';
         dayCell.setAttribute('data-day', i);
         dayCell.setAttribute('data-hour', hour);
         planner.appendChild(dayCell);
-        console.log(dayCell)
     }
 });
 
@@ -31,7 +57,8 @@ function addTask() {
 
     if (!title || !time) return alert("אנא מלא את כל השדות החשובים");
 
-    const cell = document.querySelector(`.cell[data-day='${day}'][data-hour='${time}']`);
+    console.log(`.day-column;[data-day='${day}'][data-hour='${time}']`);
+    const cell = document.querySelector(`.day-column[data-day='${day}'][data-hour='${time}']`);
     if (!cell) return alert("לא נמצאה התאמה לשעה/יום");
 
     const card = document.createElement('div');
@@ -106,7 +133,7 @@ window.onclick = function (event) {
 function saveTasksToStorage() {
     const tasks = [];
     document.querySelectorAll('.task-card').forEach(card => {
-        const cell = card.closest('.cell');
+        const cell = card.closest('.day-column');
         const task = {
             day: cell.getAttribute('data-day'),
             hour: cell.getAttribute('data-hour'),
@@ -125,7 +152,7 @@ function saveTasksToStorage() {
 function loadTasksFromStorage() {
     const data = JSON.parse(localStorage.getItem('tasks') || '[]');
     data.forEach(task => {
-        const cell = document.querySelector(`.cell[data-day='${task.day}'][data-hour='${task.hour}']`);
+        const cell = document.querySelector(`.day-column[data-day='${task.day}'][data-hour='${task.hour}']`);
         if (cell) {
             const card = document.createElement('div');
             card.className = `task-card priority-${task.priority}`;
