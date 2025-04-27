@@ -148,27 +148,31 @@
 //     localStorage.setItem('tasks', JSON.stringify(tasks));
 // }
 
-// function loadTasksFromStorage() {
-//     const data = JSON.parse(localStorage.getItem('tasks') || '[]');
-//     data.forEach(task => {
-//         const cell = document.querySelector(.day-column[data-day='${task.day}'][data-hour='${task.hour}']);
-//         if (cell) {
-//             const card = document.createElement('div');
-//             card.className = task-card priority-${task.priority};
-//             card.innerHTML = `
-//         <div class="actions">
-//             <button onclick="editTask(this)">✏️</button>
-//             <button onclick="deleteTask(this)">🗑️</button>
-//         </div>
-//         <div><strong>${task.title}</strong></div>
-//         <div><small>${task.desc}</small></div>
-//         <div><small>🕒 ${task.time}</small></div>
-//         <div><small>👤 ${task.creator}</small></div>
-//         <div><small class="status">סטטוס: <span onclick="toggleStatus(this)" style="cursor:pointer">${task.status === 'done' ? 'בוצע' : 'בתהליך'}</span></small></div>
-//         <div><small>🎯 עדיפות: ${task.priority}</small></div>
-//     `;
-//             cell.appendChild(card);
-//         }
-//     });
-// }
-// window.onload = loadTasksFromStorage;
+function loadTasksFromStorage() {
+    const data = JSON.parse(localStorage.getItem('tasks') || '[]');
+    data.forEach(task => {
+        const cell = document.querySelector(`.day-column[data-day='${task.day}'][data-hour='${task.hour}']`);
+        if (cell) {
+            const card = document.createElement('div');
+            card.className = `task-card priority-${task.priority}`;
+            card.innerHTML = `
+        <div class="actions">
+            <button onclick="editTask(this)">✏️</button>
+            <button onclick="deleteTask(this)">🗑️</button>
+        </div>
+        <div><strong>${task.title}</strong></div>
+        <div><small>${task.desc}</small></div>
+        <div><small>🕒 ${task.time}</small></div>
+        <div><small>👤 ${task.creator}</small></div>
+        <div><small class="status">סטטוס: <span onclick="toggleStatus(this)" style="cursor:pointer">${task.status === 'done' ? 'בוצע' : 'בתהליך'}</span></small></div>
+        <div><small>🎯 עדיפות: ${task.priority}</small></div>
+    `;
+            cell.appendChild(card);
+        }
+    });
+}
+window.onload = loadTasksFromStorage;
+
+/* changes*/
+
+
