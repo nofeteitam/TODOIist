@@ -1,4 +1,3 @@
-/*
 class Task {
     //sales=0;
     constructor(title, time, day, desc,
@@ -12,7 +11,7 @@ class Task {
         this.priority = priority;
     }
 }
-
+/*
 let newTask = new Task(
     title,
     time,
@@ -64,21 +63,21 @@ function addTask() {
     const card = document.createElement('div');
     // card.className = task-card priority-${priority};
     card.innerHTML = `
-<div class="actions">
-  <button onclick="editTask(this)">✏️</button>
-  <button onclick="deleteTask(this)">🗑️</button>
-</div>
-<div><strong>${title}</strong></div>
-<div><small>${desc}</small></div>
-<div><small>🕒 ${time}</small></div>
-<div><small>👤 ${creator}</small></div>
-<div><small class="status">סטטוס: <span onclick="toggleStatus(this)" style="cursor:pointer">${status === 'done' ? 'בוצע' : 'בתהליך'}</span></small></div>
-<div><small>🎯 עדיפות: ${priority}</small></div>
+            <div class="actions">
+            <button onclick="editTask(this)">✏️</button>
+            <button onclick="deleteTask(this)">🗑️</button>
+            </div>
+            <div><strong>${title}</strong></div>
+            <div><small>${desc}</small></div>
+            <div><small>🕒 ${time}</small></div>
+            <div><small>👤 ${creator}</small></div>
+            <div><small class="status">סטטוס: <span onclick="toggleStatus(this)" style="cursor:pointer">${status === 'done' ? 'בוצע' : 'בתהליך'}</span></small></div>
+            <div><small>🎯 עדיפות: ${priority}</small></div>
 `;
 
     cell.appendChild(card);
+     saveTasksToStorage();
     closeModal();
-    saveTasksToStorage();
 
 }
 
@@ -131,9 +130,85 @@ window.onclick = function (event) {
     }
 }
 function saveTasksToStorage() {
+    alert(2222)
     const tasks = [];
+
+    const title = document.getElementById('title').value;
+    const time = document.getElementById('time').value;
+    const day = document.getElementById('day').value;
+    const desc = document.getElementById('desc').value;
+    const creator = document.getElementById('creator').value;
+    const status = document.getElementById('status').value;
+    const priority = document.getElementById('priority').value;
+
+    let newId;
+
+    let currentUser = JSON.parse(localStorage.getItem("currentUser"))
+ 
+    if (localStorage.getItem("allTasks")) {
+        let storageConfig = JSON.parse(localStorage.getItem("configUptodate"))
+        let alltasks=JSON.parse(localStorage.getItem("allTasks"))
+            for (let i = 0; i < alltasks.length; i++) {
+                    newId = alltasks[i].taskId
+                }
+            newId += 1
+            console.log(creator)
+            console.log(alltasks)
+           
+            let newTask = new Task(
+                this.title=title,
+                this.time=time,
+                this.day=day,
+                this.desc=desc,
+                this.creator=creator,
+                this.status=status,
+                this.priority=priority)
+
+                console.log(newTask)
+
+                newTask.userId = currentUser.userId;
+                newTask.taskId=newId
+    
+                alltasks.push(newTask)
+
+                console.log(alltasks)
+
+                localStorage.setItem("allTasks", JSON.stringify(alltasks));
+                alert("You have successfully updated new task");
+                return;
+         }
+
+    else{
+
+        const taskArr={}
+
+        let newTask = new Task(
+            this.title=title,
+            this.time=time,
+            this.day=day,
+            this.desc=desc,
+            this.creator=creator,
+            this.status=status,
+            this.priority=priority)
+        
+            //newTask.userId = 1;
+          //  taskArr[creator] = [(newTask)]
+
+          newTask.taskId=1;
+          newTask.userId=currentUser.userId;
+
+          taskArr[0]= [(newTask)];
+
+            localStorage.setItem('allTasks', JSON.stringify(taskArr));
+        }
+
+
+
+
+    /*
     document.querySelectorAll('.task-card').forEach(card => {
         const cell = card.closest('.day-column');
+        console.log(cell)
         const task = {
             day: cell.getAttribute('data-day'),
             hour: cell.getAttribute('data-hour'),
@@ -146,11 +221,25 @@ function saveTasksToStorage() {
         };
         tasks.push(task);
     });
-    localStorage.setItem('tasks', JSON.stringify(tasks));
+
+    */
+   // localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
 function loadTasksFromStorage() {
-    const data = JSON.parse(localStorage.getItem('tasks') || '[]');
+    const data = JSON.parse(localStorage.getItem('') || '[]');
+    console.log(data)
+    console.log(data.length)
+
+    const user=789;
+    
+
+  //  for (let i = 0; i < data[creator].length; i++) {
+ //       newId = alltasks[creator][i].userId
+ //  }
+
+
+
     data.forEach(task => {
         const cell = document.querySelector(`.day-column[data-day='${task.day}'][data-hour='${task.hour}']`);
         if (cell) {
