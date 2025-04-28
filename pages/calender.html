@@ -66,22 +66,27 @@
 
     <h1>Weekly Schedule</h1>
     <div>
-        <button class="addBtn" onclick="openModal()"> + הוספת אירוע </button>
+        <button class="addBtn" onclick="openModal()"> הוספת אירוע </button>
         <button class="addBtn" onclick="logOut(event)"> החלף משתמש </button>
         <button class="add-task-btn" onclick="openModal()">+</button>
-
     </div>
 
     <div class="planner" id="planner">
         <!-- עמודת שעות -->
-        <div></div> <!-- ריק לשם התאמה -->
+        <!-- <div></div> ריק לשם התאמה 
+        <div class="hour">חמישי</div>
+        <div class="hour">רביעי</div>
+        <div class="hour">שלישי</div>
+        <div class="hour">שני</div>
+        <div class="hour">ראשון</div>
+        -->
+        <!-- <div></div> ריק לשם התאמה -->
+        <div></div>
         <div class="hour">ראשון</div>
         <div class="hour">שני</div>
         <div class="hour">שלישי</div>
         <div class="hour">רביעי</div>
         <div class="hour">חמישי</div>
-        <div class="hour">שישי</div>
-        <div class="hour">שבת</div>
     </div>
 
     <div class="modal" id="taskModal">
@@ -97,8 +102,6 @@
                 <option value="2">שלישי</option>
                 <option value="3">רביעי</option>
                 <option value="4">חמישי</option>
-                <option value="5">שישי</option>
-                <option value="6">שבת</option>
             </select>
             <textarea id="desc" placeholder="תיאור המשימה"></textarea>
             <input type="text" id="creator" placeholder="מי יצר?">

@@ -37,7 +37,8 @@ hours.forEach(hour => {
     hourCell.textContent = hour;
     planner.appendChild(hourCell);
 
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 5; i++) {
+
         const dayCell = document.createElement('div');
         dayCell.className = 'day-column';
         dayCell.setAttribute('data-day', i);
