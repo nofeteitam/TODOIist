@@ -11,24 +11,11 @@ class Task {
         this.priority = priority;
     }
 }
-/*
-let newTask = new Task(
-    title,
-    time,
-    day,
-    desc,
-    creator,
-    status,
-    priority)
-
-localStorage.setItem('new_tasks', JSON.stringify(newTask));
-
-const taskSlot = document.getElementsByClassName('task-slot_ex');
-const taskCard = document.getElementsByClassName('task-card_ex');
-*/
 
 const planner = document.getElementById('planner');
 const hours = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"];
+
+
 
 hours.forEach(hour => {
     const hourCell = document.createElement('div');
@@ -47,11 +34,14 @@ hours.forEach(hour => {
 });
 
 function addTask() {
+
+    let currentUser = JSON.parse(localStorage.getItem("currentUser"))
+
     const title = document.getElementById('title').value;
     const time = document.getElementById('time').value;
     const day = document.getElementById('day').value;
     const desc = document.getElementById('desc').value;
-    const creator = document.getElementById('creator').value;
+    const creator = currentUser.username;
     const status = document.getElementById('status').value;
     const priority = document.getElementById('priority').value;
 
@@ -116,7 +106,7 @@ function editTask(button) {
     document.getElementById('title').value = cells[1].textContent;
     document.getElementById('desc').value = cells[2].textContent;
     document.getElementById('time').value = cells[3].textContent.replace('🕒 ', '');
-    document.getElementById('creator').value = cells[4].textContent.replace('👤 ', '');
+    document.getElementById('creator').value = currentUser.username;  //cells[4].textContent.replace('👤 ', '');
     document.getElementById('status').value = cells[5].textContent.includes('בוצע') ? 'done' : 'in-progress';
     document.getElementById('priority').value = cells[6].textContent.replace('🎯 עדיפות: ', '').trim();
     card.remove();
@@ -133,18 +123,18 @@ window.onclick = function (event) {
 }
 
 function saveTasksToStorage() {
+
+    let currentUser = JSON.parse(localStorage.getItem("currentUser"))
  
     const title = document.getElementById('title').value;
     const time = document.getElementById('time').value;
     const day = document.getElementById('day').value;
     const desc = document.getElementById('desc').value;
-    const creator = document.getElementById('creator').value;
+    const creator = currentUser.username;
     const status = document.getElementById('status').value;
     const priority = document.getElementById('priority').value;
 
     let newId;
-
-    let currentUser = JSON.parse(localStorage.getItem("currentUser"))
  
     if (localStorage.getItem("allTasks")) {
 

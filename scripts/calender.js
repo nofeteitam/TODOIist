@@ -1,6 +1,12 @@
 
 function logOut(event){
     event.preventDefault();
-    localStorage.removeItem(`currentUser`);
+
+    let guestMode=JSON.parse(localStorage.getItem(`guestMode`));
+    console.log(guestMode)
+
+    localStorage.setItem("currentUser", JSON.stringify(guestMode));
+
+    //localStorage.removeItem(`currentUser`);
     window.location.href="../pages/login.html"
 }

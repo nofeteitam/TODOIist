@@ -17,13 +17,15 @@ let currentUser=JSON.parse(localStorage.getItem(`currentUser`));
 if (!currentUser){
   //guest config
   document.getElementById("profile-menu").style.display=""
-  document.getElementById("profilePic").src="../images/no.jpg"
-  document.getElementById("userAccountName").innerText="Guest"
-
+  document.getElementById("profilePic").src=currentUser.profilePicture;
+  document.getElementById("userAccountName").innerText=currentUser.username;
+  document.getElementById("welcomeBar").innerText="Welcome  "+currentUser.username;;
+    
  }
 else{
     document.getElementById("profilePic").src=currentUser.profilePicture
     document.getElementById("userAccountName").innerText=currentUser.username;
+    document.getElementById("welcomeBar").innerText="Welcome  "+currentUser.username;
    
     if (currentUser.sellerId){
       //seller config
@@ -63,6 +65,12 @@ else{
 
 function logOut(event){
     event.preventDefault();
-    localStorage.removeItem(`currentUser`);
-    window.location.href="../pages/login.html"
+
+    let guestMode=JSON.parse(localStorage.getItem(`guestMode`));
+    console.log(guestMode)
+
+    localStorage.setItem("currentUser", JSON.stringify(guestMode));
+
+    //localStorage.removeItem(`currentUser`);
+   // window.location.href="../pages/login.html"
 }
