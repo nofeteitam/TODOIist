@@ -12,10 +12,9 @@ class Task {
     }
 }
 
+let taskFlag=0;
 const planner = document.getElementById('planner');
 const hours = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"];
-
-
 
 hours.forEach(hour => {
     const hourCell = document.createElement('div');
@@ -46,7 +45,6 @@ function addTask() {
     const priority = document.getElementById('priority').value;
 
     if (!title || !time) return alert("אנא מלא את כל השדות החשובים");
-
 
     const cell = document.querySelector(`.day-column[data-day=
                                '${day}'][data-hour='${time}']`);
@@ -91,13 +89,11 @@ function deleteTask(button) {
     const card = button.closest('.task-card');
     card.remove();
     saveTasksToStorage();
-
 }
 
 function toggleStatus(span) {
     span.textContent = span.textContent === 'בוצע' ? 'בתהליך' : 'בוצע';
     saveTasksToStorage();
-
 }
 
 function editTask(button) {
@@ -210,44 +206,105 @@ function saveTasksToStorage() {
 
 function loadTasksFromStorage()
 {
-   
     const allTasks = JSON.parse(localStorage.getItem('allTasks') || '[]');
+    let currentUser = JSON.parse(localStorage.getItem("currentUser"))
     console.log(allTasks)
     console.log(allTasks.length)
     
     for (let i = 0; i < allTasks.length; i++)
      {
        let data=allTasks[i];
-       console.log(data);
-
-              const cell = document.querySelector(`.day-column[data-day=
+       if(data.userId==currentUser.userId)
+         {
+           const cell = document.querySelector(`.day-column[data-day=
                                      '${data.day}'][data-hour='${data.time}']`);
-
-               console.log(cell);
-
-
-              if (cell)
-                 {
-                    const card = document.createElement('div');
-                    //card.className = `task-card priority-${task.priority}`;
-                    card.innerHTML = `
-                            <div class="actions">
-                                <button onclick="editTask(this)">✏️</button>
-                                <button onclick="deleteTask(this)">🗑️</button>
-                            </div>
-                            <div><strong>${data.title}</strong></div>
-                            <div>${data.desc}</div>
-                            <div>🕒 ${data.time}</div>
-                            <div>👤 ${data.creator}</div>
-                            <div><small class="status">סטטוס: <span onclick="toggleStatus(this)" style="cursor:pointer">${data.status === 'done' ? 'בוצע' : 'בתהליך'}</span></small></div>
-                            <div>🎯 עדיפות: ${data.priority}</div>
-                        `;
-                    cell.appendChild(card);
-                   } 
-        
+           if (cell)
+            {
+                const card = document.createElement('div');
+                //card.className = `task-card priority-${task.priority}`;
+                card.innerHTML = `
+                        <div class="actions">
+                            <button onclick="editTask(this)">✏️</button>
+                            <button onclick="deleteTask(this)">🗑️</button>
+                        </div>
+                        <div><strong>${data.title}</strong></div>
+                        <div>${data.desc}</div>
+                        <div>🕒 ${data.time}</div>
+                        <div>👤 ${data.creator}</div>
+                        <div><small class="status">סטטוס: <span onclick="toggleStatus(this)" style="cursor:pointer">${data.status === 'done' ? 'בוצע' : 'בתהליך'}</span></small></div>
+                        <div>🎯 עדיפות: ${data.priority}</div>
+                    `;
+                cell.appendChild(card);
+              } 
+          }
       }
  }
+
+ function allTasks()
+{
+    const alladdBtn = document.getElementById('alladdBtn');
+    console.log(taskFlag)
+
+    if (taskFlag==1)
+        {
+            clearCalender();
+            loadTasksFromStorage();
+            alladdBtn.innerText="כל המשימות ";
+            taskFlag=0;
+           }
+    else   
+    {
+        clearCalender();
+        alladdBtn.innerText="משימות יוזר נוכחי ";
+        taskFlag=1;
+
+            const allTasks = JSON.parse(localStorage.getItem('allTasks') || '[]');
+            
+            for (let i = 0; i < allTasks.length; i++)
+            {
+                let data=allTasks[i];
+                const cell = document.querySelector(`.day-column[data-day=
+                                                '${data.day}'][data-hour='${data.time}']`);
+                if (cell)
+                    {
+                        const card = document.createElement('div');
+                        //card.className = `task-card priority-${task.priority}`;
+                        card.innerHTML = `
+                                <div class="actions">
+                                    <button onclick="editTask(this)">✏️</button>
+                                    <button onclick="deleteTask(this)">🗑️</button>
+                                </div>
+                                <div><strong>${data.title}</strong></div>
+                                <div>${data.desc}</div>
+                                <div>🕒 ${data.time}</div>
+                                <div>👤 ${data.creator}</div>
+                                <div><small class="status">סטטוס: <span onclick="toggleStatus(this)" style="cursor:pointer">${data.status === 'done' ? 'בוצע' : 'בתהליך'}</span></small></div>
+                                <div>🎯 עדיפות: ${data.priority}</div>
+                            `;
+                        cell.appendChild(card);
+                    } 
+             }
+     }
+  }
+ 
+function clearCalender()
+  {
+        const allTasks = JSON.parse(localStorage.getItem('allTasks') || '[]');
+                    
+        for (let i = 0; i < allTasks.length; i++)
+        {
+            let data=allTasks[i];
+            const cell = document.querySelector(`.day-column[data-day=
+                                            '${data.day}'][data-hour='${data.time}']`);
+            if (cell)
+                {
+                    cell.innerHTML="";
+                } 
+         }
+   }
+
 window.onload = loadTasksFromStorage;
+ 
 
 /* changes
 

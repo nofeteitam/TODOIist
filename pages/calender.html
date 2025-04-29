@@ -68,19 +68,12 @@
     <div>
         <button class="addBtn" onclick="openModal()"> הוספת אירוע </button>
         <button class="addBtn" onclick="logOut(event)"> החלף משתמש </button>
-        <button class="add-task-btn" onclick="openModal()">+</button>
+        <button class="addBtn" id="alladdBtn" onclick="allTasks()">  כל המשימות  </button>
+        <button class="addBtn" id="clrBtn" onclick="clearCalender()">   נקה יומן </button>
     </div>
 
     <div class="planner" id="planner">
-        <!-- עמודת שעות -->
-        <!-- <div></div> ריק לשם התאמה 
-        <div class="hour">חמישי</div>
-        <div class="hour">רביעי</div>
-        <div class="hour">שלישי</div>
-        <div class="hour">שני</div>
-        <div class="hour">ראשון</div>
-        -->
-        <!-- <div></div> ריק לשם התאמה -->
+
         <div></div>
         <div class="hour">ראשון</div>
         <div class="hour">שני</div>
@@ -88,6 +81,8 @@
         <div class="hour">רביעי</div>
         <div class="hour">חמישי</div>
     </div>
+
+    <button class="add-task-btn" onclick="openModal()">+</button>
 
     <div class="modal" id="taskModal">
         <div class="modal-content">

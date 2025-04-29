@@ -20,8 +20,7 @@ if (!currentUser){
   document.getElementById("profilePic").src=currentUser.profilePicture;
   document.getElementById("userAccountName").innerText=currentUser.username;
   document.getElementById("welcomeBar").innerText="Welcome  "+currentUser.username;;
-    
- }
+  }
 else{
     document.getElementById("profilePic").src=currentUser.profilePicture
     document.getElementById("userAccountName").innerText=currentUser.username;
