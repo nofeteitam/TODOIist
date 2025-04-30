@@ -51,7 +51,7 @@ function addTask() {
     if (!cell) return alert("לא נמצאה התאמה לשעה/יום");
 
     const card = document.createElement('div');
-    card.className = `task-card priority-${priority}`;
+    //  card.className = `task-card priority-${priority}`;
     card.innerHTML = `
             <div class="actions">
                 <button onclick="editTask(this)">✏️</button>
@@ -217,7 +217,7 @@ function loadTasksFromStorage() {
                                      '${data.day}'][data-hour='${data.time}']`);
             if (cell) {
                 const card = document.createElement('div');
-                card.className = `task-card priority-${task.priority}`;
+                // card.className = `task-card priority-${task.priority}`;
                 card.innerHTML = `
                         <div class="actions">
                             <button onclick="editTask(this)">✏️</button>
@@ -259,7 +259,7 @@ function allTasks() {
                                                 '${data.day}'][data-hour='${data.time}']`);
             if (cell) {
                 const card = document.createElement('div');
-                card.className = `task-card priority-${task.priority}`;
+                //  card.className = `task-card priority-${task.priority}`;
                 card.innerHTML = `
                                 <div class="actions">
                                     <button onclick="editTask(this)">✏️</button>
