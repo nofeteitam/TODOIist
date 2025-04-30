@@ -12,7 +12,7 @@ class Task {
     }
 }
 
-let taskFlag=0;
+let taskFlag = 0;
 const planner = document.getElementById('planner');
 const hours = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"];
 
@@ -51,7 +51,7 @@ function addTask() {
     if (!cell) return alert("לא נמצאה התאמה לשעה/יום");
 
     const card = document.createElement('div');
-    // card.className = task-card priority-${priority};
+    card.className = `task-card priority-${priority}`;
     card.innerHTML = `
             <div class="actions">
                 <button onclick="editTask(this)">✏️</button>
@@ -121,7 +121,7 @@ window.onclick = function (event) {
 function saveTasksToStorage() {
 
     let currentUser = JSON.parse(localStorage.getItem("currentUser"))
- 
+
     const title = document.getElementById('title').value;
     const time = document.getElementById('time').value;
     const day = document.getElementById('day').value;
@@ -131,57 +131,57 @@ function saveTasksToStorage() {
     const priority = document.getElementById('priority').value;
 
     let newId;
- 
+
     if (localStorage.getItem("allTasks")) {
 
-        let alltasks=JSON.parse(localStorage.getItem("allTasks"))
- 
+        let alltasks = JSON.parse(localStorage.getItem("allTasks"))
+
         for (let i = 0; i < alltasks.length; i++) {
-                    newId = alltasks[i].taskId
-                }
-            newId += 1
-           
-            let newTask = new Task(
-                this.title=title,
-                this.time=time,
-                this.day=day,
-                this.desc=desc,
-                this.creator=creator,
-                this.status=status,
-                this.priority=priority)
-
-                newTask.taskId=newId;
-                newTask.userId=currentUser.userId;
-     
-                alltasks.push(newTask);
-
-                localStorage.setItem("allTasks", JSON.stringify(alltasks));
-                alert("You have successfully updated new task");
-                return;
-         }
-    else{
-
-        const taskArr=[]
+            newId = alltasks[i].taskId
+        }
+        newId += 1
 
         let newTask = new Task(
-            this.title=title,
-            this.time=time,
-            this.day=day,
-            this.desc=desc,
-            this.creator=creator,
-            this.status=status,
-            this.priority=priority)
-        
-            //newTask.userId = 1;
-          //  taskArr[creator] = [(newTask)]
+            this.title = title,
+            this.time = time,
+            this.day = day,
+            this.desc = desc,
+            this.creator = creator,
+            this.status = status,
+            this.priority = priority)
 
-          newTask.taskId=1;
-          newTask.userId=currentUser.userId;
+        newTask.taskId = newId;
+        newTask.userId = currentUser.userId;
 
-          taskArr.push(newTask);
+        alltasks.push(newTask);
 
-            localStorage.setItem('allTasks', JSON.stringify(taskArr));
-        }
+        localStorage.setItem("allTasks", JSON.stringify(alltasks));
+        //alert("You have successfully updated new task");
+        return;
+    }
+    else {
+
+        const taskArr = []
+
+        let newTask = new Task(
+            this.title = title,
+            this.time = time,
+            this.day = day,
+            this.desc = desc,
+            this.creator = creator,
+            this.status = status,
+            this.priority = priority)
+
+        //newTask.userId = 1;
+        //  taskArr[creator] = [(newTask)]
+
+        newTask.taskId = 1;
+        newTask.userId = currentUser.userId;
+
+        taskArr.push(newTask);
+
+        localStorage.setItem('allTasks', JSON.stringify(taskArr));
+    }
 
     /*
     document.querySelectorAll('.task-card').forEach(card => {
@@ -201,27 +201,23 @@ function saveTasksToStorage() {
     });
 
     */
-   // localStorage.setItem('tasks', JSON.stringify(tasks));
+    // localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
-function loadTasksFromStorage()
-{
+function loadTasksFromStorage() {
     const allTasks = JSON.parse(localStorage.getItem('allTasks') || '[]');
     let currentUser = JSON.parse(localStorage.getItem("currentUser"))
     console.log(allTasks)
     console.log(allTasks.length)
-    
-    for (let i = 0; i < allTasks.length; i++)
-     {
-       let data=allTasks[i];
-       if(data.userId==currentUser.userId)
-         {
-           const cell = document.querySelector(`.day-column[data-day=
+
+    for (let i = 0; i < allTasks.length; i++) {
+        let data = allTasks[i];
+        if (data.userId == currentUser.userId) {
+            const cell = document.querySelector(`.day-column[data-day=
                                      '${data.day}'][data-hour='${data.time}']`);
-           if (cell)
-            {
+            if (cell) {
                 const card = document.createElement('div');
-                //card.className = `task-card priority-${task.priority}`;
+                card.className = `task-card priority-${task.priority}`;
                 card.innerHTML = `
                         <div class="actions">
                             <button onclick="editTask(this)">✏️</button>
@@ -235,41 +231,36 @@ function loadTasksFromStorage()
                         <div>🎯 עדיפות: ${data.priority}</div>
                     `;
                 cell.appendChild(card);
-              } 
-          }
-      }
- }
+            }
+        }
+    }
+}
 
- function allTasks()
-{
+function allTasks() {
     const alladdBtn = document.getElementById('alladdBtn');
     console.log(taskFlag)
 
-    if (taskFlag==1)
-        {
-            clearCalender();
-            loadTasksFromStorage();
-            alladdBtn.innerText="כל המשימות ";
-            taskFlag=0;
-           }
-    else   
-    {
+    if (taskFlag == 1) {
         clearCalender();
-        alladdBtn.innerText="משימות יוזר נוכחי ";
-        taskFlag=1;
+        loadTasksFromStorage();
+        alladdBtn.innerText = "כל המשימות ";
+        taskFlag = 0;
+    }
+    else {
+        clearCalender();
+        alladdBtn.innerText = "משימות יוזר נוכחי ";
+        taskFlag = 1;
 
-            const allTasks = JSON.parse(localStorage.getItem('allTasks') || '[]');
-            
-            for (let i = 0; i < allTasks.length; i++)
-            {
-                let data=allTasks[i];
-                const cell = document.querySelector(`.day-column[data-day=
+        const allTasks = JSON.parse(localStorage.getItem('allTasks') || '[]');
+
+        for (let i = 0; i < allTasks.length; i++) {
+            let data = allTasks[i];
+            const cell = document.querySelector(`.day-column[data-day=
                                                 '${data.day}'][data-hour='${data.time}']`);
-                if (cell)
-                    {
-                        const card = document.createElement('div');
-                        //card.className = `task-card priority-${task.priority}`;
-                        card.innerHTML = `
+            if (cell) {
+                const card = document.createElement('div');
+                card.className = `task-card priority-${task.priority}`;
+                card.innerHTML = `
                                 <div class="actions">
                                     <button onclick="editTask(this)">✏️</button>
                                     <button onclick="deleteTask(this)">🗑️</button>
@@ -281,30 +272,27 @@ function loadTasksFromStorage()
                                 <div><small class="status">סטטוס: <span onclick="toggleStatus(this)" style="cursor:pointer">${data.status === 'done' ? 'בוצע' : 'בתהליך'}</span></small></div>
                                 <div>🎯 עדיפות: ${data.priority}</div>
                             `;
-                        cell.appendChild(card);
-                    } 
-             }
-     }
-  }
- 
-function clearCalender()
-  {
-        const allTasks = JSON.parse(localStorage.getItem('allTasks') || '[]');
-                    
-        for (let i = 0; i < allTasks.length; i++)
-        {
-            let data=allTasks[i];
-            const cell = document.querySelector(`.day-column[data-day=
+                cell.appendChild(card);
+            }
+        }
+    }
+}
+
+function clearCalender() {
+    const allTasks = JSON.parse(localStorage.getItem('allTasks') || '[]');
+
+    for (let i = 0; i < allTasks.length; i++) {
+        let data = allTasks[i];
+        const cell = document.querySelector(`.day-column[data-day=
                                             '${data.day}'][data-hour='${data.time}']`);
-            if (cell)
-                {
-                    cell.innerHTML="";
-                } 
-         }
-   }
+        if (cell) {
+            cell.innerHTML = "";
+        }
+    }
+}
 
 window.onload = loadTasksFromStorage;
- 
+
 
 /* changes
 

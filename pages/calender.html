@@ -68,8 +68,8 @@
     <div>
         <button class="addBtn" onclick="openModal()"> הוספת אירוע </button>
         <button class="addBtn" onclick="logOut(event)"> החלף משתמש </button>
-        <button class="addBtn" id="alladdBtn" onclick="allTasks()">  כל המשימות  </button>
-        <button class="addBtn" id="clrBtn" onclick="clearCalender()">   נקה יומן </button>
+        <button class="addBtn" id="alladdBtn" onclick="allTasks()"> כל המשימות </button>
+        <button class="addBtn" id="clrBtn" onclick="clearCalender()"> נקה יומן </button>
     </div>
 
     <div class="planner" id="planner">
@@ -90,7 +90,9 @@
 
             <h3>הוספת משימה</h3>
             <input type="text" id="title" placeholder="שם המשימה" required>
-            <input type="time" id="time" required>
+            <select id="time" required>
+                <option value="">בחר שעה</option>
+            </select>
             <select id="day">
                 <option value="0">ראשון</option>
                 <option value="1">שני</option>

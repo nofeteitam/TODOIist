@@ -56,7 +56,7 @@ header {
 .task-card {
     background-color: #e3f2fd;
     border: 1px solid #90caf9;
-    border-radius: 2px;
+    border-radius: px;
     padding: 4px 6px;
     margin-bottom: 8px;
     position: relative;
