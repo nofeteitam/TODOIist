@@ -94,34 +94,25 @@ function closeModal() {
 
 function deleteTask(button) {
 
-    console.log(button);
     let a  = button.id;
-    console.log(a);
     let index = a.indexOf("-");
     console.log(index);
 
-    let new8= 0;
-    new8=+(a.slice(index+1,a.length));  
-    console.log(new8);
-
-
-    for (let i = 0; i < alltasks.length; i++) {
-        newId = alltasks[i].taskId;
-    }
-
-    let alltasks=JSON.parse(localStorage.getItem("allTasks"))
-    {
-      
-    }
-   
-  //  const card = button.closest('.task-card');
-   // console.log('.task-card');
-   // console.log(card);
+    let newTaskId= 0;
+    newTaskId=+(a.slice(index+1,a.length));  
     
-    //card.remove();
-   // saveTasksToStorage();
+    let taskArr=JSON.parse(localStorage.getItem("allTasks"))
 
-   
+    for (let i = 0; i < taskArr.length; i++)
+     {
+       if(taskArr[i].taskCount==newTaskId)
+       {
+        taskArr.splice(i, 1);
+        localStorage.setItem("allTasks", JSON.stringify(taskArr));
+        window.location.reload();
+        return;
+       }
+      }
 }
 
 function toggleStatus(span) {
@@ -280,7 +271,7 @@ function loadTasksFromStorage()
       }
  }
 
- function allTasks()
+ function allTasksFunc()
 {
     const alladdBtn = document.getElementById('alladdBtn');
 
