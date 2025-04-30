@@ -13,6 +13,7 @@ class Task {
 }
 
 let taskFlag=0;
+let taskCount=0;
 const planner = document.getElementById('planner');
 const hours = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"];
 
@@ -34,8 +35,15 @@ hours.forEach(hour => {
 
 function addTask() {
 
-    let currentUser = JSON.parse(localStorage.getItem("currentUser"))
+    if (localStorage.getItem("allTasks")) {
+        let alltasks=JSON.parse(localStorage.getItem("allTasks"))
+        taskCount=alltasks.length+1;    }
+    else{
+        taskCount+=1;
+    }
 
+    let currentUser = JSON.parse(localStorage.getItem("currentUser"))
+    
     const title = document.getElementById('title').value;
     const time = document.getElementById('time').value;
     const day = document.getElementById('day').value;
@@ -51,24 +59,23 @@ function addTask() {
     if (!cell) return alert("לא נמצאה התאמה לשעה/יום");
 
     const card = document.createElement('div');
-    // card.className = task-card priority-${priority};
+    //card.className = `task-card priority-${priority}`;
+    card.className = `task-card priority-${taskCount}`;
     card.innerHTML = `
             <div class="actions">
-                <button onclick="editTask(this)">✏️</button>
-                <button onclick="deleteTask(this)">🗑️</button>
+                <button id="editBtn-${taskCount}" onclick="editTask(this)">✏️</button>
+                <button id="deleteBtn-${taskCount}" onclick="deleteTask(this)">🗑️</button>
             </div>
             <div><strong>${title}</strong></div>
             <div><small>${desc}</small></div>
             <div><small>🕒 ${time}</small></div>
             <div><small>👤 ${creator}</small></div>
-            <div><small class="status">סטטוס: <span onclick="toggleStatus(this)" style="cursor:pointer">${status === 'done' ? 'בוצע' : 'בתהליך'}</span></small></div>
+            <div><small class="status">סטטוס: <span id="statusSpan-${taskCount}" onclick="toggleStatus(this)" style="cursor:pointer">${status === 'done' ? 'בוצע' : 'בתהליך'}</span></small></div>
             <div><small>🎯 עדיפות: ${priority}</small></div>
            `;
-
     cell.appendChild(card);
     saveTasksToStorage();
     closeModal();
-
 }
 
 function openModal() {
@@ -86,9 +93,35 @@ function closeModal() {
 }
 
 function deleteTask(button) {
-    const card = button.closest('.task-card');
-    card.remove();
-    saveTasksToStorage();
+
+    console.log(button);
+    let a  = button.id;
+    console.log(a);
+    let index = a.indexOf("-");
+    console.log(index);
+
+    let new8= 0;
+    new8=+(a.slice(index+1,a.length));  
+    console.log(new8);
+
+
+    for (let i = 0; i < alltasks.length; i++) {
+        newId = alltasks[i].taskId;
+    }
+
+    let alltasks=JSON.parse(localStorage.getItem("allTasks"))
+    {
+      
+    }
+   
+  //  const card = button.closest('.task-card');
+   // console.log('.task-card');
+   // console.log(card);
+    
+    //card.remove();
+   // saveTasksToStorage();
+
+   
 }
 
 function toggleStatus(span) {
@@ -119,6 +152,13 @@ window.onclick = function (event) {
 }
 
 function saveTasksToStorage() {
+
+    if (localStorage.getItem("allTasks")) {
+        let alltasks=JSON.parse(localStorage.getItem("allTasks"))
+        taskCount=alltasks.length+1;    }
+    else{
+        taskCount+=1;
+    }
 
     let currentUser = JSON.parse(localStorage.getItem("currentUser"))
  
@@ -152,6 +192,7 @@ function saveTasksToStorage() {
 
                 newTask.taskId=newId;
                 newTask.userId=currentUser.userId;
+                newTask.taskCount=taskCount;
      
                 alltasks.push(newTask);
 
@@ -177,6 +218,7 @@ function saveTasksToStorage() {
 
           newTask.taskId=1;
           newTask.userId=currentUser.userId;
+          newTask.taskCount=taskCount;
 
           taskArr.push(newTask);
 
@@ -208,8 +250,6 @@ function loadTasksFromStorage()
 {
     const allTasks = JSON.parse(localStorage.getItem('allTasks') || '[]');
     let currentUser = JSON.parse(localStorage.getItem("currentUser"))
-    console.log(allTasks)
-    console.log(allTasks.length)
     
     for (let i = 0; i < allTasks.length; i++)
      {
@@ -224,14 +264,14 @@ function loadTasksFromStorage()
                 //card.className = `task-card priority-${task.priority}`;
                 card.innerHTML = `
                         <div class="actions">
-                            <button onclick="editTask(this)">✏️</button>
-                            <button onclick="deleteTask(this)">🗑️</button>
+                            <button id="editBtn-${data.taskCount}" onclick="editTask(this)">✏️</button>
+                            <button id="deleteBtn-${data.taskCount}" onclick="deleteTask(this)">🗑️</button>
                         </div>
                         <div><strong>${data.title}</strong></div>
                         <div>${data.desc}</div>
                         <div>🕒 ${data.time}</div>
                         <div>👤 ${data.creator}</div>
-                        <div><small class="status">סטטוס: <span onclick="toggleStatus(this)" style="cursor:pointer">${data.status === 'done' ? 'בוצע' : 'בתהליך'}</span></small></div>
+                        <div><small class="status">סטטוס: <span id="statusSpan-${data.taskCount}" onclick="toggleStatus(this)" style="cursor:pointer">${status === 'done' ? 'בוצע' : 'בתהליך'}</span></small></div>
                         <div>🎯 עדיפות: ${data.priority}</div>
                     `;
                 cell.appendChild(card);
@@ -243,7 +283,6 @@ function loadTasksFromStorage()
  function allTasks()
 {
     const alladdBtn = document.getElementById('alladdBtn');
-    console.log(taskFlag)
 
     if (taskFlag==1)
         {
@@ -271,14 +310,14 @@ function loadTasksFromStorage()
                         //card.className = `task-card priority-${task.priority}`;
                         card.innerHTML = `
                                 <div class="actions">
-                                    <button onclick="editTask(this)">✏️</button>
-                                    <button onclick="deleteTask(this)">🗑️</button>
+                                    <button id="editBtn-${data.taskCount}" onclick="editTask(this)">✏️</button>
+                                    <button id="deleteBtn-${data.taskCount}" onclick="deleteTask(this)">🗑️</button>
                                 </div>
                                 <div><strong>${data.title}</strong></div>
                                 <div>${data.desc}</div>
                                 <div>🕒 ${data.time}</div>
                                 <div>👤 ${data.creator}</div>
-                                <div><small class="status">סטטוס: <span onclick="toggleStatus(this)" style="cursor:pointer">${data.status === 'done' ? 'בוצע' : 'בתהליך'}</span></small></div>
+                                <div><small class="status">סטטוס: <span id="statusSpan-${data.taskCount}" onclick="toggleStatus(this)" style="cursor:pointer">${status === 'done' ? 'בוצע' : 'בתהליך'}</span></small></div>
                                 <div>🎯 עדיפות: ${data.priority}</div>
                             `;
                         cell.appendChild(card);
@@ -307,6 +346,13 @@ window.onload = loadTasksFromStorage;
  
 
 /* changes
+
+ //const text = "JavaScript";
+    //console.log(text.slice(0, 4));    // "Java"
+    //console.log(text.slice(-6));     // "Script"
+
+   /* let a  = 'Hello Hello Hello';
+    console.log( a.replace('Hello', 'Bye') );
 
        data.forEach(task =>
          {
