@@ -14,6 +14,7 @@ class Task {
 
 let taskFlag = 0;
 let taskCount = 0;
+//let editingTaskId = null; // null = מצב רגיל (הוספה), אחרת = עריכה
 const planner = document.getElementById('planner');
 const hours = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"];
 
@@ -35,12 +36,14 @@ hours.forEach(hour => {
 
 function addTask() {
 
-    if (localStorage.getItem("allTasks")) {
-        let alltasks = JSON.parse(localStorage.getItem("allTasks"))
-        taskCount = alltasks.length + 1;
+    if (localStorage.getItem("taskCount")) {
+        taskCount = localStorage.getItem("taskCount");
+        taskCount++;
+        localStorage.setItem("taskCount", taskCount);
     }
     else {
-        taskCount += 1;
+        taskCount = 1;
+        localStorage.setItem("taskCount", taskCount);
     }
 
     let currentUser = JSON.parse(localStorage.getItem("currentUser"))
@@ -61,9 +64,9 @@ function addTask() {
 
     const card = document.createElement('div');
     //card.className = `task-card priority-${priority}`;
-    // 
-
-    card.className = `task-card priority-${priority}`;
+    // card.className = `task-card priority-${priority}`;
+    card.className = `task-card`;
+    //card.setAttribute('data-id', taskCount);
     card.innerHTML = `
             <div class="actions">
                 <button id="editBtn-${taskCount}" onclick="editTask(this)">✏️</button>
@@ -77,7 +80,17 @@ function addTask() {
             <div><small>🎯 עדיפות: ${priority}</small></div>
            `;
     cell.appendChild(card);
-    saveTasksToStorage();
+    let newTask = new Task(
+        this.title = title,
+        this.time = time,
+        this.day = day,
+        this.desc = desc,
+        this.creator = creator,
+        this.status = status,
+        this.priority = priority)
+    newTask.userId = currentUser.userId;
+    newTask.taskCount = taskCount;
+    saveTasksToStorage(newTask);
     closeModal();
 }
 
@@ -93,6 +106,13 @@ function closeModal() {
     document.getElementById('creator').value = '';
     document.getElementById('status').value = 'in-progress';
     document.getElementById('priority').value = 'low';
+    /*
+        const btn = document.getElementById('taskSubmitBtn');
+        btn.textContent = "הוסף משימה";
+        btn.onclick = addTask();
+    
+        document.getElementById('taskModal').style.display = 'none';
+        */
 }
 
 function deleteTask(button) {
@@ -124,6 +144,21 @@ function deleteTask(button) {
     //card.remove();
     // saveTasksToStorage();
 
+    /**function removeTaskFromStorage(taskId) {
+        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        tasks = tasks.filter(task => task.id != taskId); // מוחקת רק את המשימה הזו
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    } */
+    /*let orders = JSON.parse(localStorage.getItem(configOption + "Orders"));
+    for (let i in orders) {
+        if (orders[i].orderId == orderId) {
+            orders.splice(i, 1);
+            localStorage.setItem(configOption + "Orders", JSON.stringify(orders));
+            window.location.reload();
+            return;
+        }
+    } */
+
 
 }
 
@@ -132,8 +167,37 @@ function toggleStatus(span) {
     saveTasksToStorage();
 }
 
+/*
+function saveEditedTask() {
+    console.log("Saving edited task:", editingTaskId);
+    const title = document.getElementById('title').value;
+    const time = document.getElementById('time').value;
+    const day = document.getElementById('day').value;
+    const desc = document.getElementById('desc').value;
+    const creator = document.getElementById('creator').value;
+    const status = document.getElementById('status').value;
+    const priority = document.getElementById('priority').value;
+
+    let newTask = new Task(
+        this.title = title,
+        this.time = time,
+        this.day = day,
+        this.desc = desc,
+        this.creator = creator,
+        this.status = status,
+        this.priority = priority)
+    newTask.userId = currentUser.userId;
+    newTask.taskCount = editingTaskId;
+    saveTasksToStorage(newTask);
+}
+*/
+
 function editTask(button) {
     const card = button.closest('.task-card');
+    // const taskId = card.getAttribute('data-id');
+    //editingTaskId = taskId;
+    //  console.log("Saving edited task:", editingTaskId);
+
     const cells = card.querySelectorAll('div');
     document.getElementById('title').value = cells[1].textContent;
     document.getElementById('desc').value = cells[2].textContent;
@@ -141,10 +205,37 @@ function editTask(button) {
     document.getElementById('creator').value = currentUser.username;  //cells[4].textContent.replace('👤 ', '');
     document.getElementById('status').value = cells[5].textContent.includes('בוצע') ? 'done' : 'in-progress';
     document.getElementById('priority').value = cells[6].textContent.replace('🎯 עדיפות: ', '').trim();
+    /*
+    const title = cells[1].textContent;
+    const time = cells[3].textContent.replace('🕒 ', '');
+    const day = cells[4].textContent;
+    const desc = cells[2].textContent;
+    const creator = currentUser.username;
+    const status = cells[5].textContent.includes('בוצע') ? 'done' : 'in-progress';
+    const priority = cells[6].textContent.replace('🎯 עדיפות: ', '').trim();
+    let newTask = new Task(
+        this.title = title,
+        this.time = time,
+        this.day = day,
+        this.desc = desc,
+        this.creator = creator,
+        this.status = status,
+        this.priority = priority)
+    newTask.userId = currentUser.userId;
+    newTask.taskCount = taskId;
+    */
+    /*
+       // שינוי טקסט הכפתור
+       const btn = document.getElementById('taskSubmitBtn');
+       btn.textContent = "שמור שינויים";
+       btn.onclick = () => saveEditedTask();
+       //btn.onclick = saveEditedTask();
+       */
     card.remove();
     openModal();
-    saveTasksToStorage();
+    //saveTasksToStorage(newTask);
 }
+
 
 window.onclick = function (event) {
     const modal = document.getElementById('taskModal');
@@ -153,6 +244,40 @@ window.onclick = function (event) {
     }
 }
 
+function saveTasksToStorage(TaskToSave) {
+
+    if (localStorage.getItem("allTasks")) {
+        let exist = 1;
+        let alltasks = JSON.parse(localStorage.getItem("allTasks"))
+        for (let i in alltasks) {
+            console.log(alltasks[i].taskCount)
+            if (alltasks[i].taskCount === TaskToSave.taskCount) {
+                console.log("exist")
+                alltasks.splice(i, 1);
+                alltasks.push(TaskToSave);
+                exist = 0;
+            }
+        }
+        if (exist > 0) {
+            console.log("not exist")
+            alltasks.push(TaskToSave);
+        }
+        localStorage.setItem("allTasks", JSON.stringify(alltasks));
+        // closeModal()
+        window.location.reload();
+        //alert("You have successfully updated new task");
+    }
+    else {
+        const taskArr = []
+        taskArr.push(TaskToSave);
+        localStorage.setItem('allTasks', JSON.stringify(taskArr));
+        // closeModal()
+        window.location.reload();
+    }
+
+}
+
+/*
 function saveTasksToStorage() {
 
     if (localStorage.getItem("allTasks")) {
@@ -245,10 +370,10 @@ function saveTasksToStorage() {
         tasks.push(task);
     });
 
-    */
+    
     // localStorage.setItem('tasks', JSON.stringify(tasks));
 }
-
+*/
 function loadTasksFromStorage() {
     const allTasks = JSON.parse(localStorage.getItem('allTasks') || '[]');
     let currentUser = JSON.parse(localStorage.getItem("currentUser"))
