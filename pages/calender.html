@@ -68,8 +68,13 @@
     <div>
         <button class="addBtn" onclick="openModal()"> הוספת אירוע </button>
         <button class="addBtn" onclick="logOut(event)"> החלף משתמש </button>
+<<<<<<< HEAD
         <button class="addBtn" id="alladdBtn" onclick="allTasksFunc()">  כל המשימות  </button>
         <button class="addBtn" id="clrBtn" onclick="clearCalender()">   נקה יומן </button>
+=======
+        <button class="addBtn" id="alladdBtn" onclick="allTasks()"> כל המשימות </button>
+        <button class="addBtn" id="clrBtn" onclick="clearCalender()"> נקה יומן </button>
+>>>>>>> c6926ff0aef6a74b7beba7365c2412387d05002e
     </div>
 
     <div class="planner" id="planner">
@@ -90,7 +95,9 @@
 
             <h3>הוספת משימה</h3>
             <input type="text" id="title" placeholder="שם המשימה" required>
-            <input type="time" id="time" required>
+            <select id="time" required>
+                <option value="">בחר שעה</option>
+            </select>
             <select id="day">
                 <option value="0">ראשון</option>
                 <option value="1">שני</option>
@@ -109,7 +116,7 @@
                 <option value="medium">עדיפות בינונית</option>
                 <option value="high">עדיפות גבוהה</option>
             </select>
-            <button class="btn btn-primary" onclick="addTask()">הוסף משימה</button>
+            <button id="taskSubmitBtn" class="btn btn-primary" onclick="addTask()">הוסף משימה</button>
         </div>
     </div>
 
