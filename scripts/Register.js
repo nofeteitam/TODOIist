@@ -128,12 +128,14 @@ $("#submitRegBtn").click(async (event) => {
             let newId;
 
             if (localStorage.getItem("configUptodate")) {
+                
 
                 let newUser = new User("Guest", "", "", "", "", "")
                 newUser.userId = 0;
                 newUser.profilePicture = "../images/no.jpg";
-                configArr[uptodateConfig] = (newUser)
-                localStorage.setItem("guestMode", JSON.stringify(configArr));
+                //configArr[uptodateConfig] = (newUser)
+                localStorage.setItem("guestMode", JSON.stringify(newUser));
+                
 
                 
                 let storageConfig = JSON.parse(localStorage.getItem("configUptodate"))
